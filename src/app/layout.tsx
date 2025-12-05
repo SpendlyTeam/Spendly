@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { Header } from "@/shared/Header";
+import { Header } from "@/shared/components/Header";
 
 export const metadata: Metadata = {
   title: "Spendly",
