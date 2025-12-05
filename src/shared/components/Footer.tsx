@@ -10,9 +10,9 @@ const nav: NavSection[] = [
   {
     title: "Product",
     items: [
-      { label: "Placeholder", href: "/" },
-      { label: "Placeholder", href: "/" },
-      { label: "Placeholder", href: "/" },
+      { label: "Placeholder1", href: "/" },
+      { label: "Placeholder2", href: "/" },
+      { label: "Placeholder3", href: "/" },
     ],
   },
   {
@@ -20,15 +20,15 @@ const nav: NavSection[] = [
     items: [
       { label: "About", href: "/about" },
       { label: "Careers", href: "/careers" },
-      { label: "Placeholder", href: "/" },
+      { label: "Placeholder4", href: "/" },
     ],
   },
   {
     title: "Support",
     items: [
-      { label: "Placeholder", href: "/" },
+      { label: "Placeholder5", href: "/" },
       { label: "Contact", href: "/contact" },
-      { label: "Placeholder", href: "/" },
+      { label: "Placeholder6", href: "/" },
     ],
   },
 ];
