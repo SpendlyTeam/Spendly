@@ -54,10 +54,10 @@ export function RegisterForm() {
         <form onSubmit={handleRegister}>
           <div className="grid gap-4">
             <div className="grid gap-2">
-              <Label htmlFor="name">Name</Label>
+              <Label htmlFor="name">Username</Label>
               <Input
                 id="name"
-                placeholder="John Doe"
+                placeholder="johndoe123"
                 required
                 value={name}
                 onChange={(e) => setName(e.target.value)}
