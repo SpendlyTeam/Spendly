@@ -1,6 +1,6 @@
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
-import { PrismaClient } from "@lib/generated/prisma/client";
+import { PrismaClient } from "@prisma/client";
 
 import { Resend } from "resend";
 import { getWelcomeEmailHtml } from "./email-templates/welcome-email";

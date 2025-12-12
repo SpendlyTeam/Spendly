@@ -1,8 +1,6 @@
 export const getWelcomeEmailHtml = (url: string) => {
-  const baseUrl = new URL(url).origin;
-
-  const publicAssetUrl = "https://spendly.fun";
-  const logoUrl = `${publicAssetUrl}/logow.svg`;
+  const logoUrl = `https://spendly.fun/logow.svg`;
+  const baseUrl = `https://spendly.fun`;
 
   return `
 <!DOCTYPE html>
