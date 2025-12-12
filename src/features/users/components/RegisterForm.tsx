@@ -84,7 +84,11 @@ export function RegisterForm() {
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>
-            <Button className="w-full" type="submit" disabled={loading}>
+            <Button
+              className="w-full bg-logoGreen hover:bg-logoGreen/90 font-bold text-white"
+              type="submit"
+              disabled={loading}
+            >
               {loading ? "Creating account..." : "Create account"}
             </Button>
           </div>
@@ -93,7 +97,10 @@ export function RegisterForm() {
       <CardFooter>
         <div className="text-sm text-center w-full">
           Already have an account?{" "}
-          <Link href="/login" className="underline">
+          <Link
+            href="/login"
+            className="underline text-logoGreen hover:text-logoGreen/80"
+          >
             Sign in
           </Link>
         </div>

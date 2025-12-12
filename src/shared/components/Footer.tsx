@@ -41,7 +41,7 @@ const socials = [
 
 export const Footer = () => {
   return (
-    <footer className="mt-20 bg-gray-950 text-white">
+    <footer className="bg-gray-950 text-white">
       <div className="mx-auto max-w-6xl px-6 py-14 space-y-10 lg:px-10">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
