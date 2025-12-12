@@ -74,7 +74,11 @@ export function LoginForm() {
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>
-            <Button className="w-full" type="submit" disabled={loading}>
+            <Button
+              className="w-full bg-logoGreen hover:bg-logoGreen/90 font-bold text-white"
+              type="submit"
+              disabled={loading}
+            >
               {loading ? "Signing in..." : "Sign in"}
             </Button>
           </div>
@@ -83,7 +87,10 @@ export function LoginForm() {
       <CardFooter>
         <div className="text-sm text-center w-full">
           Don&apos;t have an account?{" "}
-          <Link href="/register" className="underline">
+          <Link
+            href="/register"
+            className="underline text-logoGreen hover:text-logoGreen/80"
+          >
             Sign up
           </Link>
         </div>

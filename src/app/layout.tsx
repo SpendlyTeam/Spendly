@@ -19,7 +19,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pl">
-      <body className="flex flex-col min-h-screen">
+      <body className="flex flex-col min-h-screen bg-slate-950 text-white">
         <Header />
         <main className="flex-grow">{children}</main>
         <Footer />
