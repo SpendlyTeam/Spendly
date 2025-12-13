@@ -7,6 +7,9 @@ const config: Config = {
       colors: {
         logoGreen: "#7ed957",
       },
+      fontFamily: {
+        sans: ["var(--font-outfit)", "sans-serif"],
+      },
     },
   },
   plugins: [],

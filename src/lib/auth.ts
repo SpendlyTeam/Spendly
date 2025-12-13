@@ -1,4 +1,5 @@
 import { betterAuth } from "better-auth";
+import { username } from "better-auth/plugins";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { PrismaClient } from "@prisma/client";
 
@@ -27,4 +28,5 @@ export const auth = betterAuth({
       });
     },
   },
+  plugins: [username()],
 });
