@@ -8,12 +8,26 @@ import { PasswordInput } from "@/shared/components/PasswordInput";
 import { Label } from "@/shared/components/Label";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { ToastContainer, toast, Bounce } from "react-toastify";
 
 export function LoginForm() {
   const [emailOrUsername, setEmailOrUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+
+  const emailNotVerified = (msg: string) =>
+    toast.error(msg, {
+      position: "bottom-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: false,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+      transition: Bounce,
+    });
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -29,7 +43,7 @@ export function LoginForm() {
             router.push("/dashboard");
           },
           onError: (ctx) => {
-            alert(ctx.error.message);
+            emailNotVerified(ctx.error.message);
             setLoading(false);
           },
         },
@@ -45,7 +59,7 @@ export function LoginForm() {
             router.push("/dashboard");
           },
           onError: (ctx) => {
-            alert(ctx.error.message);
+            emailNotVerified(ctx.error.message);
             setLoading(false);
           },
         },
@@ -55,9 +69,6 @@ export function LoginForm() {
 
   return (
     <div className="w-full max-w-sm">
-      <div className="mb-6">
-        {/* Title/Description removed as they are handled by AuthPage container for layout consistency */}
-      </div>
       <form onSubmit={handleLogin}>
         <div className="grid gap-4">
           <div className="grid gap-2 text-left">
@@ -65,7 +76,6 @@ export function LoginForm() {
             <Input
               id="email"
               type="text"
-              placeholder="m@example.com or username"
               required
               value={emailOrUsername}
               onChange={(e) => setEmailOrUsername(e.target.value)}
@@ -84,7 +94,7 @@ export function LoginForm() {
           </div>
           <div className="flex justify-center mt-2">
             <Link
-              href="/forgot-password" // Assuming this route exists or will exist
+              href="/forgot-password"
               className="text-sm text-gray-500 hover:text-gray-800 dark:hover:text-gray-300"
             >
               Forgot your password?
@@ -99,8 +109,6 @@ export function LoginForm() {
           </Button>
         </div>
       </form>
-      {/* Footer link removed as it is handled by the overlay toggle in AuthPage */}
     </div>
   );
-  0;
 }

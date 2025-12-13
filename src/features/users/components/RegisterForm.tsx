@@ -6,18 +6,51 @@ import { Button } from "@/shared/components/Button";
 import { Input } from "@/shared/components/Input";
 import { PasswordInput } from "@/shared/components/PasswordInput";
 import { Label } from "@/shared/components/Label";
-import { useRouter } from "next/navigation";
+import { toast, Bounce } from "react-toastify";
 
 export function RegisterForm() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const router = useRouter();
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+
+    if (password.length < 8) {
+      toast.error("Password must be at least 8 characters long", {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        transition: Bounce,
+      });
+      setLoading(false);
+      return;
+    }
+
+    const usernameRegex = /^[a-zA-Z0-9]+$/;
+    if (!usernameRegex.test(username)) {
+      toast.error("Username can only contain letters and numbers", {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        transition: Bounce,
+      });
+      setLoading(false);
+      return;
+    }
+
     await authClient.signUp.email(
       {
         email,
@@ -27,10 +60,37 @@ export function RegisterForm() {
       },
       {
         onSuccess: () => {
-          router.push("/");
+          setUsername("");
+          setEmail("");
+          setPassword("");
+          setLoading(false);
+          toast.success(
+            "Registration successful! Please check your email for the verification link",
+            {
+              position: "bottom-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: false,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "dark",
+              transition: Bounce,
+            },
+          );
         },
         onError: (ctx) => {
-          alert(ctx.error.message);
+          toast.error(ctx.error.message, {
+            position: "bottom-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+            transition: Bounce,
+          });
           setLoading(false);
         },
       },
@@ -51,6 +111,10 @@ export function RegisterForm() {
               onChange={(e) => setUsername(e.target.value)}
               className="bg-gray-100 dark:bg-slate-800 border-none"
             />
+
+            <p className="text-xs text-gray-500">
+              Only letters and numbers allowed.
+            </p>
           </div>
           <div className="grid gap-2 text-left">
             <Label htmlFor="email">Email</Label>
@@ -73,6 +137,10 @@ export function RegisterForm() {
               onChange={(e) => setPassword(e.target.value)}
               className="bg-gray-100 dark:bg-slate-800 border-none"
             />
+
+            <p className="text-xs text-gray-500">
+              Must be at least 8 characters long.
+            </p>
           </div>
           <Button
             className="w-full bg-green-600 hover:bg-green-700 font-bold text-white rounded-full py-6 uppercase tracking-wider mt-4"
