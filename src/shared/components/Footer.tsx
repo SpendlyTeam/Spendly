@@ -53,7 +53,7 @@ export const Footer = () => {
             </h2>
           </div>
           <Link
-            href="/"
+            href="/auth"
             className="inline-flex items-center gap-2 rounded-full bg-logoGreen px-5 py-3 text-sm font-semibold text-gray-900 shadow-lg shadow-logoGreen/30 transition hover:-translate-y-0.5 hover:shadow-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-logoGreen"
           >
             Get started

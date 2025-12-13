@@ -1,5 +1,6 @@
 import { betterAuth } from "better-auth";
 import { username } from "better-auth/plugins";
+import { getResetPasswordEmailHtml } from "./email-templates/reset-password";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { PrismaClient } from "@prisma/client";
 
@@ -16,6 +17,14 @@ export const auth = betterAuth({
   emailAndPassword: {
     enabled: true,
     requireEmailVerification: true,
+    sendResetPassword: async ({ user, url }) => {
+      await resend.emails.send({
+        from: "Spendly <account@notify.spendly.fun>",
+        to: user.email,
+        subject: "Reset your password",
+        html: getResetPasswordEmailHtml(url),
+      });
+    },
   },
   emailVerification: {
     sendOnSignUp: true,
