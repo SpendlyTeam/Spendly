@@ -3,8 +3,9 @@ name: CI
 env:
   TARGET_ENV: "ci"
   DATABASE_URL: "postgresql://postgres:postgres@127.0.0.1:54322/postgres"
-  # BETTER_AUTH_SECRET: "dummy"
+  BETTER_AUTH_SECRET: "dummy"
   BASE_URL: "http://localhost:3000"
+  RESEND_API_KEY: "re_123"
 
 on:
   push:
