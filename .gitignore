@@ -44,3 +44,4 @@ next-env.d.ts
 
 .nx/
 .env*.local
+.next/

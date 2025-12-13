@@ -1,13 +1,9 @@
-import React from "react";
+import { AuthPage } from "@/features/users/components/AuthPage";
 
-export default function AuthLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function LoginPage() {
   return (
     <div className="dark bg-slate-950 min-h-screen flex w-full flex-grow items-center justify-center pt-32 pb-12">
-      {children}
+      <AuthPage initialMode="login" />;
     </div>
   );
 }
