@@ -3,7 +3,7 @@ import Link from "next/link";
 import logow from "../../../public/logow.svg";
 export const Header = () => {
   return (
-    <header className="fixed top-4 left-4 right-4 flex justify-between items-center bg-gray-900 text-white px-6 py-3 rounded-full shadow-lg z-50">
+    <header className="fixed top-4 left-4 right-4 flex justify-between items-center bg-gray-900 text-white px-6 py-3 rounded-full shadow-lg z-999">
       <div className="flex items-center space-x-3">
         <Image
           src={logow}
@@ -31,10 +31,10 @@ export const Header = () => {
       </ul>
       <div className="flex items-center space-x-4">
         <Link
-          href="/"
+          href="/auth"
           className="hidden lg:block bg-white text-gray-900 px-4 py-2 rounded-full text-sm font-bold hover:bg-gray-200"
         >
-          Login
+          Account
         </Link>
       </div>
     </header>
