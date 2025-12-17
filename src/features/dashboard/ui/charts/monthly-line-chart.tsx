@@ -1,7 +1,7 @@
 "use client";
 
 import "@lib/chartjs";
-import { Line } from "react-chartjs-2";
+import { Bar } from "react-chartjs-2";
 
 export function MonthlyLineChart(props: {
   labels: string[];
@@ -9,8 +9,53 @@ export function MonthlyLineChart(props: {
 }) {
   const data = {
     labels: props.labels,
-    datasets: [{ data: props.values }],
+    datasets: [
+      {
+        label: "Spending",
+        data: props.values,
+        backgroundColor: "#7ed957", // logoGreen
+        borderRadius: 4,
+        hoverBackgroundColor: "#8be064",
+      },
+    ],
   };
 
-  return <Line data={data} />;
+  const options = {
+    responsive: true,
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        callbacks: {
+          label: (context: any) => {
+            let label = context.dataset.label || "";
+            if (label) {
+              label += ": ";
+            }
+            if (context.parsed.y !== null) {
+              label += new Intl.NumberFormat("en-US", {
+                style: "currency",
+                currency: "USD",
+              }).format(context.parsed.y);
+            }
+            return label;
+          },
+        },
+      },
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+        grid: { color: "#ffffff10" },
+        ticks: { color: "#94a3b8" },
+        border: { display: false },
+      },
+      x: {
+        grid: { display: false },
+        ticks: { color: "#94a3b8" },
+        border: { display: false },
+      },
+    },
+  };
+
+  return <Bar data={data} options={options} />;
 }

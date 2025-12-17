@@ -1,24 +1,22 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import type { TransactionUI } from "@/features/transactions/model/types";
 
-type RangePreset = "month" | "30d";
+export type RangePreset = "month" | "30d";
 
 function startOfThisMonthISO() {
   const now = new Date();
-  const d = new Date(now.getFullYear(), now.getMonth(), 1);
-  return d.toISOString();
+  return new Date(now.getFullYear(), now.getMonth(), 1).toISOString();
 }
 
 function last30DaysISO() {
-  const now = new Date();
-  const d = new Date(now);
+  const d = new Date();
   d.setDate(d.getDate() - 30);
   return d.toISOString();
 }
 
-function toYyyyMm(d: Date) {
+function toYYYYMM(d: Date) {
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
 }
 
@@ -26,58 +24,63 @@ export function useDashboardData(preset: RangePreset) {
   const [transactions, setTransactions] = useState<TransactionUI[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const fromISO = preset === "month" ? startOfThisMonthISO() : last30DaysISO();
-  const toISO = new Date().toISOString();
+  const fetchData = useCallback(async () => {
+    const fromISO = preset === "month" ? startOfThisMonthISO() : last30DaysISO();
+    const toISO = new Date().toISOString();
+
+    setLoading(true);
+    try {
+      const url = `/api/transactions?from=${encodeURIComponent(fromISO)}&to=${encodeURIComponent(toISO)}`;
+      const res = await fetch(url, { cache: "no-store" });
+      if (!res.ok) throw new Error("Failed to fetch");
+      const json = (await res.json()) as TransactionUI[];
+      setTransactions(json);
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setLoading(false);
+    }
+  }, [preset]);
 
   useEffect(() => {
     let alive = true;
     (async () => {
-      setLoading(true);
-      const url = `/api/transactions?from=${encodeURIComponent(fromISO)}&to=${encodeURIComponent(toISO)}`;
-      const res = await fetch(url);
-      const json = (await res.json()) as TransactionUI[];
       if (!alive) return;
-      setTransactions(json);
-      setLoading(false);
+      await fetchData();
     })();
     return () => {
       alive = false;
     };
-  }, [fromISO, toISO]);
+  }, [fetchData]);
 
   const summary = useMemo(() => {
-    const totalCents = transactions.reduce((acc, t) => acc + t.amountCents, 0);
+    const totalCents = transactions.reduce((a, t) => a + t.amountCents, 0);
 
-    const byCategory = new Map<string, { name: string; cents: number }>();
+    const byCategory = new Map<string, { name: string; cents: number; color: string }>();
     for (const t of transactions) {
       const key = t.category.slug;
       const prev = byCategory.get(key);
-      byCategory.set(key, {
-        name: t.category.name,
+      byCategory.set(key, { 
+        name: t.category.name, 
         cents: (prev?.cents ?? 0) + t.amountCents,
+        color: t.category.color ?? "#94a3b8" // Default to slate-400 if no color
       });
     }
 
-    const top3 = [...byCategory.entries()]
-      .map(([slug, v]) => ({ slug, ...v }))
-      .sort((a, b) => b.cents - a.cents)
-      .slice(0, 3);
+    const top3 = [...byCategory.values()].sort((a, b) => b.cents - a.cents).slice(0, 3);
 
     const byMonth = new Map<string, number>();
     for (const t of transactions) {
-      const ym = toYyyyMm(new Date(t.date));
+      const ym = toYYYYMM(new Date(t.date));
       byMonth.set(ym, (byMonth.get(ym) ?? 0) + t.amountCents);
     }
-    const monthsSorted = [...byMonth.keys()].sort();
-    const monthly = monthsSorted.map((m) => ({
-      month: m,
-      cents: byMonth.get(m)!,
-    }));
+    const months = [...byMonth.keys()].sort();
+    const monthly = months.map((m) => ({ month: m, cents: byMonth.get(m)! }));
 
     const pie = [...byCategory.values()].sort((a, b) => b.cents - a.cents);
 
     return { totalCents, count: transactions.length, top3, monthly, pie };
   }, [transactions]);
 
-  return { transactions, loading, summary, range: { fromISO, toISO } };
+  return { transactions, loading, summary, refetch: fetchData };
 }
