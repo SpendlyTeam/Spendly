@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { formatMoneyCents } from "@/../lib/formatters";
+import { formatMoneyCents } from "@lib/formatters";
 
 export function SummaryCards(props: {
   totalCents: number;

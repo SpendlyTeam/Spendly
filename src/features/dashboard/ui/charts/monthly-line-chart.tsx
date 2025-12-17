@@ -1,6 +1,6 @@
 "use client";
 
-import "@/shared/lib/chartjs";
+import "@lib/chartjs";
 import { Line } from "react-chartjs-2";
 
 export function MonthlyLineChart(props: {

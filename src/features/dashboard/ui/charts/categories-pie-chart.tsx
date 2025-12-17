@@ -1,6 +1,6 @@
 "use client";
 
-import "@/shared/lib/chartjs";
+import "@lib/chartjs";
 import { Pie } from "react-chartjs-2";
 
 export function CategoriesPieChart(props: {
