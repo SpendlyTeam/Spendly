@@ -9,8 +9,4 @@ export async function getUserIdOrThrow() {
   if (session?.user?.id) {
     return session.user.id;
   }
-
-  const DEMO_USER_ID = process.env.DEMO_USER_ID;
-  if (!DEMO_USER_ID) throw new Error("Missing DEMO_USER_ID in .env");
-  return DEMO_USER_ID;
 }
