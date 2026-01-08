@@ -6,6 +6,7 @@ env:
   BETTER_AUTH_SECRET: "dummy"
   BASE_URL: "http://localhost:3000"
   RESEND_API_KEY: "re_123"
+  DEMO_USER_ID: "6ottCs1FlStkDTyZzt6jHFmDlMk8VRel"
 
 on:
   push:
