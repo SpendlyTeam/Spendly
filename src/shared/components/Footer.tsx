@@ -1,38 +1,6 @@
 import Link from "next/link";
 import { Github, Linkedin, Twitter } from "lucide-react";
 
-type NavSection = {
-  title: string;
-  items: { label: string; href: string }[];
-};
-
-const nav: NavSection[] = [
-  {
-    title: "Product",
-    items: [
-      { label: "Placeholder1", href: "/" },
-      { label: "Placeholder2", href: "/" },
-      { label: "Placeholder3", href: "/" },
-    ],
-  },
-  {
-    title: "Company",
-    items: [
-      { label: "About", href: "/about" },
-      { label: "Careers", href: "/careers" },
-      { label: "Placeholder4", href: "/" },
-    ],
-  },
-  {
-    title: "Support",
-    items: [
-      { label: "Placeholder5", href: "/" },
-      { label: "Contact", href: "/contact" },
-      { label: "Placeholder6", href: "/" },
-    ],
-  },
-];
-
 const socials = [
   { href: "https://twitter.com", label: "Twitter", icon: Twitter },
   { href: "https://linkedin.com", label: "LinkedIn", icon: Linkedin },
@@ -67,27 +35,6 @@ export const Footer = () => {
               Track expenses, stick to budgets, and reach your goals with
               Spendly’s modern finance toolkit.
             </p>
-          </div>
-          <div className="grid grid-cols-2 gap-8 sm:grid-cols-3">
-            {nav.map((section) => (
-              <div key={section.title} className="space-y-3">
-                <p className="text-sm font-semibold text-white/80">
-                  {section.title}
-                </p>
-                <ul className="space-y-2 text-sm text-gray-400">
-                  {section.items.map((item) => (
-                    <li key={item.label}>
-                      <Link
-                        href={item.href}
-                        className="transition hover:text-logoGreen"
-                      >
-                        {item.label}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
           </div>
         </div>
 
