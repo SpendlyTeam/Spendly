@@ -14,11 +14,30 @@ export function CategoriesPieChart(props: {
       {
         data: props.values,
         backgroundColor: props.colors,
-        borderColor: "#020617", // slate-950 to match background
+        borderColor: "#020617",
         borderWidth: 2,
       },
     ],
   };
 
-  return <Pie data={data} />;
+  const options = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        position: "bottom" as const,
+        labels: {
+          color: "#94a3b8",
+          padding: 20,
+          font: { size: 12 },
+        },
+      },
+    },
+  };
+
+  return (
+    <div className="h-[300px] w-full flex items-center justify-center">
+      <Pie data={data} options={options} />
+    </div>
+  );
 }

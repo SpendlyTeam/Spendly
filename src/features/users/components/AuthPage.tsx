@@ -28,7 +28,6 @@ export function AuthPage({ initialMode = "login" }: AuthPageProps) {
   return (
     <AuthContainer>
       <AuthCard>
-        {/* Sign Up Container */}
         <FormContainer
           className={
             isRegister
@@ -40,7 +39,6 @@ export function AuthPage({ initialMode = "login" }: AuthPageProps) {
           <RegisterForm />
         </FormContainer>
 
-        {/* Sign In Container */}
         <FormContainer
           className={`z-[2] ${isRegister ? "translate-x-[100%]" : ""}`}
         >
@@ -48,7 +46,6 @@ export function AuthPage({ initialMode = "login" }: AuthPageProps) {
           <LoginForm />
         </FormContainer>
 
-        {/* Overlay Container */}
         <AuthOverlay isRegister={isRegister}>
           <OverlayPanel
             title="Welcome Back!"
