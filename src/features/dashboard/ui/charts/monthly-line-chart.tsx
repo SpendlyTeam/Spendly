@@ -1,6 +1,7 @@
 "use client";
 
 import "@lib/chartjs";
+import { TooltipItem } from "chart.js";
 import { Bar } from "react-chartjs-2";
 
 export function MonthlyLineChart(props: {
@@ -13,7 +14,7 @@ export function MonthlyLineChart(props: {
       {
         label: "Spending",
         data: props.values,
-        backgroundColor: "#7ed957", // logoGreen
+        backgroundColor: "#7ed957",
         borderRadius: 4,
         hoverBackgroundColor: "#8be064",
       },
@@ -22,11 +23,12 @@ export function MonthlyLineChart(props: {
 
   const options = {
     responsive: true,
+    maintainAspectRatio: false,
     plugins: {
       legend: { display: false },
       tooltip: {
         callbacks: {
-          label: (context: any) => {
+          label: (context: TooltipItem<"bar">) => {
             let label = context.dataset.label || "";
             if (label) {
               label += ": ";
@@ -46,16 +48,20 @@ export function MonthlyLineChart(props: {
       y: {
         beginAtZero: true,
         grid: { color: "#ffffff10" },
-        ticks: { color: "#94a3b8" },
+        ticks: { color: "#94a3b8", maxTicksLimit: 6 },
         border: { display: false },
       },
       x: {
         grid: { display: false },
-        ticks: { color: "#94a3b8" },
+        ticks: { color: "#94a3b8", maxRotation: 45, minRotation: 0 },
         border: { display: false },
       },
     },
   };
 
-  return <Bar data={data} options={options} />;
+  return (
+    <div className="h-[300px] w-full">
+      <Bar data={data} options={options} />
+    </div>
+  );
 }

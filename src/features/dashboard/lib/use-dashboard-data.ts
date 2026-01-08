@@ -25,7 +25,8 @@ export function useDashboardData(preset: RangePreset) {
   const [loading, setLoading] = useState(true);
 
   const fetchData = useCallback(async () => {
-    const fromISO = preset === "month" ? startOfThisMonthISO() : last30DaysISO();
+    const fromISO =
+      preset === "month" ? startOfThisMonthISO() : last30DaysISO();
     const toISO = new Date().toISOString();
 
     setLoading(true);
@@ -56,18 +57,23 @@ export function useDashboardData(preset: RangePreset) {
   const summary = useMemo(() => {
     const totalCents = transactions.reduce((a, t) => a + t.amountCents, 0);
 
-    const byCategory = new Map<string, { name: string; cents: number; color: string }>();
+    const byCategory = new Map<
+      string,
+      { name: string; cents: number; color: string }
+    >();
     for (const t of transactions) {
       const key = t.category.slug;
       const prev = byCategory.get(key);
-      byCategory.set(key, { 
-        name: t.category.name, 
+      byCategory.set(key, {
+        name: t.category.name,
         cents: (prev?.cents ?? 0) + t.amountCents,
-        color: t.category.color ?? "#94a3b8" // Default to slate-400 if no color
+        color: t.category.color ?? "#94a3b8",
       });
     }
 
-    const top3 = [...byCategory.values()].sort((a, b) => b.cents - a.cents).slice(0, 3);
+    const top3 = [...byCategory.values()]
+      .sort((a, b) => b.cents - a.cents)
+      .slice(0, 3);
 
     const byMonth = new Map<string, number>();
     for (const t of transactions) {

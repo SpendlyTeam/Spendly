@@ -2,7 +2,13 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
@@ -54,7 +60,7 @@ export function AddCategoryDialog(props: { onCreated: () => void }) {
         </Button>
       </DialogTrigger>
 
-      <DialogContent className="border-white/10 bg-slate-950 text-white">
+      <DialogContent className="border-white/10 bg-slate-950 text-white w-[90vw] sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>
             Add category <span className="text-logoGreen">.</span>

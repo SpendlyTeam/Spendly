@@ -3,10 +3,22 @@
 import { useEffect, useState } from "react";
 import type { CategoryUI } from "@/features/transactions/model/types";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 export function AddTransactionDialog(props: { onCreated: () => void }) {
   const [categories, setCategories] = useState<CategoryUI[]>([]);
@@ -75,7 +87,7 @@ export function AddTransactionDialog(props: { onCreated: () => void }) {
         </Button>
       </DialogTrigger>
 
-      <DialogContent className="border-white/10 bg-slate-950 text-white">
+      <DialogContent className="border-white/10 bg-slate-950 text-white w-[90vw] sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>
             Add transaction <span className="text-logoGreen">.</span>
