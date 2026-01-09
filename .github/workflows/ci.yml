@@ -27,7 +27,7 @@ jobs:
     env:
       NODE_OPTIONS: "--max-old-space-size=4096"
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-2019
     steps:
       - uses: actions/checkout@v4
         with:
@@ -55,7 +55,7 @@ jobs:
           key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx') }}
           restore-keys: |
             ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
-      - run: npm ci
+      - run: npm ci --verbose
 
       # Generate Prisma client and types
       - run: npx prisma@6 generate
