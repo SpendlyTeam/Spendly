@@ -27,7 +27,7 @@ jobs:
     env:
       NODE_OPTIONS: "--max-old-space-size=4096"
 
-    runs-on: ubuntu-2019
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
@@ -43,7 +43,7 @@ jobs:
       # Cache node_modules
       - uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 20
           cache: "npm"
 
       # Cache .next/cache
