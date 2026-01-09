@@ -43,7 +43,7 @@ jobs:
       # Cache node_modules
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: "npm"
 
       # Cache .next/cache
@@ -55,7 +55,7 @@ jobs:
           key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx') }}
           restore-keys: |
             ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
-      - run: npm ci --legacy-peer-deps
+      - run: npm ci
 
       # Generate Prisma client and types
       - run: npx prisma@6 generate
