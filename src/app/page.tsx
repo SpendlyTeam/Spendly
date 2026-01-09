@@ -11,6 +11,8 @@ import {
   FiChevronDown,
 } from "react-icons/fi";
 import { ShaderGradientCanvas, ShaderGradient } from "@shadergradient/react";
+import dashboardMock from "../../public/dashboardMock.png";
+import Image from "next/image";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -379,8 +381,14 @@ export default function Page() {
             effortless.
           </p>
 
-          <div className="dashboard-mock relative rounded-xl overflow-hidden shadow-2xl border border-slate-700">
-            <p>Dashboard mock</p>
+          <div className="dashboard-mock relative rounded-xl overflow-hidden shadow-2xl border border-slate-700 w-full aspect-video md:h-[600px]">
+            <Image
+              src={dashboardMock}
+              alt="Dashboard Mock"
+              fill
+              className="object-cover object-top"
+              priority
+            />
           </div>
         </div>
       </section>
