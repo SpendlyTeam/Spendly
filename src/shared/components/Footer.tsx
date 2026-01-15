@@ -2,9 +2,21 @@ import Link from "next/link";
 import { Github, Linkedin, Twitter } from "lucide-react";
 
 const socials = [
-  { href: "https://twitter.com", label: "Twitter", icon: Twitter },
-  { href: "https://linkedin.com", label: "LinkedIn", icon: Linkedin },
-  { href: "https://github.com", label: "GitHub", icon: Github },
+  {
+    href: "https://www.youtube.com/watch?v=KJg3jyxTEkU",
+    label: "Twitter",
+    icon: Twitter,
+  },
+  {
+    href: "https://www.youtube.com/watch?v=KSPxHniCtmw",
+    label: "LinkedIn",
+    icon: Linkedin,
+  },
+  {
+    href: "https://github.com/SpendlyTeam/Spendly",
+    label: "GitHub",
+    icon: Github,
+  },
 ];
 
 export const Footer = () => {

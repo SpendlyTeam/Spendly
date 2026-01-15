@@ -29,7 +29,7 @@ export default function DashboardPage() {
 
   return (
     <div className="min-h-screen bg-slate-950 text-white font-sans selection:bg-logoGreen selection:text-black">
-      <div className="pointer-events-none absolute left-1/2 top-0 h-[500px] w-[1000px] -translate-x-1/2 rounded-[100%] bg-logoGreen/20 opacity-20 blur-[100px]" />
+      <div className="" />
 
       <div className="mx-auto max-w-7xl px-4 pt-32 pb-12 space-y-8 relative">
         <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
