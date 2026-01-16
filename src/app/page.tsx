@@ -22,7 +22,6 @@ export default function Page() {
   const howItWorksRef = useRef<HTMLDivElement>(null);
   const dashboardRef = useRef<HTMLDivElement>(null);
   const trustRef = useRef<HTMLDivElement>(null);
-  const faqRef = useRef<HTMLDivElement>(null);
   const ctaRef = useRef<HTMLDivElement>(null);
 
   const [openFaq, setOpenFaq] = useState<number | null>(null);
@@ -121,24 +120,6 @@ export default function Page() {
       );
     }
 
-    if (faqRef.current) {
-      gsap.fromTo(
-        faqRef.current,
-        { opacity: 0, y: 40 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 1,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: faqRef.current,
-            start: "top 70%",
-            toggleActions: "play none none reverse",
-          },
-        },
-      );
-    }
-
     if (ctaRef.current) {
       gsap.fromTo(
         ctaRef.current,
@@ -182,21 +163,14 @@ export default function Page() {
   ];
 
   return (
-    <div className="w-full min-h-screen font-sans overflow-x-hidden bg-slate-900 text-white">
-      <section
-        ref={heroRef}
-        className="relative flex items-center justify-center h-screen bg-transparent"
-      >
+    <div className="w-full min-h-screen font-sans overflow-x-hidden bg-transparent text-white">
+      <div className="fixed inset-0 pointer-events-none" style={{ zIndex: -1 }}>
         <ShaderGradientCanvas
           pixelDensity={1}
           fov={45}
           style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
             width: "100%",
             height: "100%",
-            pointerEvents: "none",
           }}
         >
           <ShaderGradient
@@ -244,7 +218,12 @@ export default function Page() {
             wireframe={false}
           />
         </ShaderGradientCanvas>
+      </div>
 
+      <section
+        ref={heroRef}
+        className="relative flex items-center justify-center h-screen bg-transparent"
+      >
         <div className="absolute inset-0 bg-black/30 z-5" />
 
         <div className="relative z-10 max-w-3xl text-center px-4">
@@ -255,7 +234,7 @@ export default function Page() {
 
           <p className="text-lg md:text-2xl mb-8 text-gray-200 drop-shadow">
             Spendly is a clean and simple finance dashboard that helps you
-            understand where your money really goes — no spreadsheets needed.
+            understand where your money really goes no spreadsheets needed.
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -274,7 +253,10 @@ export default function Page() {
         </div>
       </section>
 
-      <section ref={cardsRef} className="py-20 text-center bg-slate-950">
+      <section
+        ref={cardsRef}
+        className="relative py-20 text-center bg-slate-950"
+      >
         <h2 className="text-4xl font-bold mb-4">
           Why choose <span className="text-logoGreen">Spendly?</span>
         </h2>
@@ -317,7 +299,7 @@ export default function Page() {
         </div>
       </section>
 
-      <section ref={howItWorksRef} className="py-20 bg-slate-900">
+      <section ref={howItWorksRef} className="relative py-20 bg-slate-900">
         <div className="max-w-5xl mx-auto px-4">
           <h2 className="text-4xl font-bold text-center mb-4">
             How <span className="text-logoGreen">It Works</span>
@@ -370,7 +352,7 @@ export default function Page() {
         </div>
       </section>
 
-      <section ref={dashboardRef} className="py-20 bg-slate-950">
+      <section ref={dashboardRef} className="relative py-20 bg-slate-950">
         <div className="max-w-6xl mx-auto px-4">
           <h2 className="text-4xl font-bold text-center mb-4">
             Your Finance Dashboard,{" "}
@@ -393,7 +375,7 @@ export default function Page() {
         </div>
       </section>
 
-      <section ref={trustRef} className="py-20 bg-slate-900">
+      <section ref={trustRef} className="relative py-20 bg-slate-900">
         <div className="max-w-5xl mx-auto px-4">
           <h2 className="text-4xl font-bold text-center mb-4">
             Your Data is <span className="text-logoGreen">Safe</span>
@@ -434,7 +416,7 @@ export default function Page() {
         </div>
       </section>
 
-      <section ref={faqRef} className="py-20 bg-slate-950">
+      <section className="relative py-20 bg-slate-950">
         <div className="max-w-3xl mx-auto px-4">
           <h2 className="text-4xl font-bold text-center mb-4">
             Frequently Asked <span className="text-logoGreen">Questions</span>
@@ -479,8 +461,10 @@ export default function Page() {
         </div>
       </section>
 
-      <section ref={ctaRef} className="relative py-32 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-logoGreen/20 via-emerald-600/10 to-transparent" />
+      <section
+        ref={ctaRef}
+        className="relative py-32 overflow-hidden bg-black/30"
+      >
         <div className="relative z-10 max-w-3xl mx-auto text-center px-4">
           <h2 className="text-5xl md:text-6xl font-extrabold mb-6">
             Start Taking Control <span className="text-logoGreen">Today</span>
