@@ -10,7 +10,7 @@ export const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <header className="fixed top-0 left-0 right-0 lg:top-4 lg:left-1/2 lg:-translate-x-1/2 lg:max-w-7xl z-50">
+    <header className="fixed top-0 left-0 right-0 lg:top-4 lg:left-1/2 lg:-translate-x-1/2 lg:max-w-7xl z-[1001]">
       <div className="flex justify-between items-center bg-gray-900/95 backdrop-blur-md text-white px-6 py-3 rounded-none lg:rounded-full shadow-lg border border-white/5 lg:border">
         <div className="flex items-center space-x-3">
           <Image
