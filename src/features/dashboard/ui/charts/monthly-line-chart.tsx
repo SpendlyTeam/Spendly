@@ -34,10 +34,11 @@ export function MonthlyLineChart(props: {
               label += ": ";
             }
             if (context.parsed.y !== null) {
-              label += new Intl.NumberFormat("en-US", {
-                style: "currency",
-                currency: "USD",
-              }).format(context.parsed.y);
+              label +=
+                context.parsed.y.toLocaleString("pl-PL", {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                }) + " zł";
             }
             return label;
           },
