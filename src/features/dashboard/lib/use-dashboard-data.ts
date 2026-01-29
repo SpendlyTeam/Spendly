@@ -43,6 +43,45 @@ function toYYYYMM(d: Date) {
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
 }
 
+export type SummaryFromTransactions = {
+  totalCents: number;
+  count: number;
+  top3: { name: string; cents: number; color: string }[];
+  monthly: { month: string; cents: number }[];
+  pie: { name: string; cents: number; color: string }[];
+};
+
+export function computeSummaryFromTransactions(
+  transactions: TransactionUI[],
+): SummaryFromTransactions {
+  const totalCents = transactions.reduce((a, t) => a + t.amountCents, 0);
+  const byCategory = new Map<
+    string,
+    { name: string; cents: number; color: string }
+  >();
+  for (const t of transactions) {
+    const key = t.category.slug;
+    const prev = byCategory.get(key);
+    byCategory.set(key, {
+      name: t.category.name,
+      cents: (prev?.cents ?? 0) + t.amountCents,
+      color: t.category.color ?? "#94a3b8",
+    });
+  }
+  const top3 = [...byCategory.values()]
+    .sort((a, b) => b.cents - a.cents)
+    .slice(0, 3);
+  const byMonth = new Map<string, number>();
+  for (const t of transactions) {
+    const ym = toYYYYMM(new Date(t.date));
+    byMonth.set(ym, (byMonth.get(ym) ?? 0) + t.amountCents);
+  }
+  const months = [...byMonth.keys()].sort();
+  const monthly = months.map((m) => ({ month: m, cents: byMonth.get(m)! }));
+  const pie = [...byCategory.values()].sort((a, b) => b.cents - a.cents);
+  return { totalCents, count: transactions.length, top3, monthly, pie };
+}
+
 export function useDashboardData(range: DashboardRange) {
   const [transactions, setTransactions] = useState<TransactionUI[]>([]);
   const [loading, setLoading] = useState(true);

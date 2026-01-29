@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -11,6 +11,7 @@ import {
   type DashboardRange,
   type CustomDateRange,
 } from "@/features/dashboard/lib/use-dashboard-data";
+import { ExportPdfDialog } from "@/features/dashboard/ui/export-pdf-dialog";
 import { CategoriesPieChart } from "@/features/dashboard/ui/charts/categories-pie-chart";
 import { MonthlyLineChart } from "@/features/dashboard/ui/charts/monthly-line-chart";
 import { TransactionsTable } from "@/features/transactions/ui/transactions-table";
@@ -42,6 +43,8 @@ function startOfThisMonth() {
 
 export default function DashboardPage() {
   const [range, setRange] = useState<DashboardRange>("month");
+  const pieChartRef = useRef<HTMLDivElement>(null);
+  const lineChartRef = useRef<HTMLDivElement>(null);
   const isCustom =
     typeof range === "object" && "from" in range && "to" in range;
   const customFrom = isCustom ? range.from : startOfThisMonth();
@@ -82,6 +85,9 @@ export default function DashboardPage() {
               Your financial health at a glance. Track spending, analyze trends,
               and stay on budget.
             </p>
+            <div className="mt-4">
+              <ExportPdfDialog />
+            </div>
           </div>
 
           <div className="flex min-w-0 flex-1 justify-end">
@@ -314,11 +320,13 @@ export default function DashboardPage() {
               ) : summary.pie.length === 0 ? (
                 <div className="text-sm text-slate-400">No data.</div>
               ) : (
-                <CategoriesPieChart
-                  labels={pieLabels}
-                  values={pieValues}
-                  colors={pieColors}
-                />
+                <div ref={pieChartRef}>
+                  <CategoriesPieChart
+                    labels={pieLabels}
+                    values={pieValues}
+                    colors={pieColors}
+                  />
+                </div>
               )}
             </CardContent>
           </Card>
@@ -333,7 +341,9 @@ export default function DashboardPage() {
               ) : summary.monthly.length === 0 ? (
                 <div className="text-sm text-slate-400">No data.</div>
               ) : (
-                <MonthlyLineChart labels={lineLabels} values={lineValues} />
+                <div ref={lineChartRef}>
+                  <MonthlyLineChart labels={lineLabels} values={lineValues} />
+                </div>
               )}
             </CardContent>
           </Card>
