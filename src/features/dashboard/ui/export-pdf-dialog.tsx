@@ -142,7 +142,7 @@ export function ExportPdfDialog() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button className="bg-logoGreen text-black hover:brightness-110">
+        <Button className="bg-white/5 text-slate-200 hover:bg-white/10 hover:text-white border border-white/10">
           <FileDown className="mr-2 h-4 w-4" />
           Export PDF
         </Button>
