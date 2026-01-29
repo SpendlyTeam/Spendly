@@ -42,7 +42,7 @@ function startOfThisMonth() {
 }
 
 export default function DashboardPage() {
-  const [range, setRange] = useState<DashboardRange>("month");
+  const [range, setRange] = useState<DashboardRange>("year");
   const pieChartRef = useRef<HTMLDivElement>(null);
   const lineChartRef = useRef<HTMLDivElement>(null);
   const isCustom =
@@ -94,6 +94,18 @@ export default function DashboardPage() {
             <div className="inline-flex flex-col items-end gap-2">
               <div className="flex flex-wrap items-center gap-2">
                 <div className="flex w-[320px] shrink-0 bg-white/5 border border-white/10 rounded-lg p-1">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setRange("year")}
+                    className={
+                      range === "year"
+                        ? "flex-1 bg-logoGreen text-black font-semibold shadow-sm hover:bg-logoGreen/90 hover:text-black px-3 py-2 text-xs"
+                        : "flex-1 text-slate-400 hover:text-white hover:bg-white/5 px-3 py-2 text-xs"
+                    }
+                  >
+                    Year
+                  </Button>
                   <Button
                     variant="ghost"
                     size="sm"
@@ -154,7 +166,7 @@ export default function DashboardPage() {
                 <div className="flex min-h-0 w-full justify-start">
                   <div className="flex w-[320px] flex-wrap items-center gap-1.5 rounded-lg border border-white/10 bg-white/5 px-2 py-1.5">
                     <label className="flex min-w-0 flex-1 basis-0 items-center gap-1.5 text-xs text-slate-400">
-                      Od
+                      From
                       <Input
                         type="date"
                         value={toDateInputValue(customFrom)}
@@ -185,7 +197,7 @@ export default function DashboardPage() {
                       />
                     </label>
                     <label className="flex min-w-0 flex-1 basis-0 items-center gap-1.5 text-xs text-slate-400">
-                      Do
+                      To
                       <Input
                         type="date"
                         value={toDateInputValue(customTo)}
