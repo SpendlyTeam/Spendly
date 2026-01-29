@@ -1,6 +1,7 @@
 "use client";
 
 import "@lib/chartjs";
+import { TooltipItem } from "chart.js";
 import { Pie } from "react-chartjs-2";
 
 export function CategoriesPieChart(props: {
@@ -30,6 +31,18 @@ export function CategoriesPieChart(props: {
           color: "#94a3b8",
           padding: 20,
           font: { size: 12 },
+        },
+      },
+      tooltip: {
+        callbacks: {
+          label: (context: TooltipItem<"pie">) => {
+            const label = context.label || "";
+            const value = context.parsed;
+            return ` ${label}: ${value.toLocaleString("pl-PL", {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            })} zł`;
+          },
         },
       },
     },
