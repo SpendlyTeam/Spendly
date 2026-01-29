@@ -57,6 +57,12 @@ function getRangeFromToISO(range: DashboardRange): {
     from.setDate(from.getDate() - 30);
     return { fromISO: from.toISOString(), toISO: to.toISOString() };
   }
+  if (range === "year") {
+    const now = new Date();
+    const from = new Date();
+    from.setFullYear(now.getFullYear() - 1);
+    return { fromISO: from.toISOString(), toISO: now.toISOString() };
+  }
   const from = new Date(range.from);
   from.setHours(0, 0, 0, 0);
   const to = new Date(range.to);
@@ -73,6 +79,7 @@ function formatPeriodLabel(range: DashboardRange): string {
     }).format(now);
   }
   if (range === "30d") return "Last 30 days";
+  if (range === "year") return "Last 12 months";
   const from = range.from;
   const to = range.to;
   return `${new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "short", year: "numeric" }).format(from)} – ${new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "short", year: "numeric" }).format(to)}`;
@@ -80,7 +87,7 @@ function formatPeriodLabel(range: DashboardRange): string {
 
 export function ExportPdfDialog() {
   const [open, setOpen] = useState(false);
-  const [range, setRange] = useState<DashboardRange>("month");
+  const [range, setRange] = useState<DashboardRange>("year");
   const [exporting, setExporting] = useState(false);
   const [error, setError] = useState("");
 
@@ -150,6 +157,19 @@ export function ExportPdfDialog() {
           <div className="space-y-2">
             <Label className="text-slate-200">Date range</Label>
             <div className="flex flex-wrap gap-2">
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                onClick={() => setRange("year")}
+                className={
+                  range === "year"
+                    ? "bg-logoGreen text-black hover:bg-logoGreen/90"
+                    : "text-slate-400 hover:text-white hover:bg-white/10"
+                }
+              >
+                Year
+              </Button>
               <Button
                 type="button"
                 variant="ghost"

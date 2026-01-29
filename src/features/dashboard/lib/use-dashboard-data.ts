@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import type { TransactionUI } from "@/features/transactions/model/types";
 
-export type RangePreset = "month" | "30d";
+export type RangePreset = "month" | "30d" | "year";
 
 export type CustomDateRange = {
   from: Date;
@@ -19,6 +19,12 @@ function isCustomRange(range: DashboardRange): range is CustomDateRange {
 function startOfThisMonthISO() {
   const now = new Date();
   return new Date(now.getFullYear(), now.getMonth(), 1).toISOString();
+}
+
+function last12MonthsISO() {
+  const d = new Date();
+  d.setFullYear(d.getFullYear() - 1);
+  return d.toISOString();
 }
 
 function last30DaysISO() {
@@ -93,7 +99,11 @@ export function useDashboardData(range: DashboardRange) {
       fromISO = startOfDayISO(range.from);
       toISO = endOfDayISO(range.to);
     } else {
-      fromISO = range === "month" ? startOfThisMonthISO() : last30DaysISO();
+      if (range === "year") {
+        fromISO = last12MonthsISO();
+      } else {
+        fromISO = range === "month" ? startOfThisMonthISO() : last30DaysISO();
+      }
       toISO = new Date().toISOString();
     }
 
