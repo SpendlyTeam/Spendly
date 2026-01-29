@@ -5,6 +5,17 @@ import type { TransactionUI } from "@/features/transactions/model/types";
 
 export type RangePreset = "month" | "30d";
 
+export type CustomDateRange = {
+  from: Date;
+  to: Date;
+};
+
+export type DashboardRange = RangePreset | CustomDateRange;
+
+function isCustomRange(range: DashboardRange): range is CustomDateRange {
+  return typeof range === "object" && "from" in range && "to" in range;
+}
+
 function startOfThisMonthISO() {
   const now = new Date();
   return new Date(now.getFullYear(), now.getMonth(), 1).toISOString();
@@ -16,18 +27,36 @@ function last30DaysISO() {
   return d.toISOString();
 }
 
+function startOfDayISO(d: Date) {
+  const x = new Date(d);
+  x.setHours(0, 0, 0, 0);
+  return x.toISOString();
+}
+
+function endOfDayISO(d: Date) {
+  const x = new Date(d);
+  x.setHours(23, 59, 59, 999);
+  return x.toISOString();
+}
+
 function toYYYYMM(d: Date) {
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
 }
 
-export function useDashboardData(preset: RangePreset) {
+export function useDashboardData(range: DashboardRange) {
   const [transactions, setTransactions] = useState<TransactionUI[]>([]);
   const [loading, setLoading] = useState(true);
 
   const fetchData = useCallback(async () => {
-    const fromISO =
-      preset === "month" ? startOfThisMonthISO() : last30DaysISO();
-    const toISO = new Date().toISOString();
+    let fromISO: string;
+    let toISO: string;
+    if (isCustomRange(range)) {
+      fromISO = startOfDayISO(range.from);
+      toISO = endOfDayISO(range.to);
+    } else {
+      fromISO = range === "month" ? startOfThisMonthISO() : last30DaysISO();
+      toISO = new Date().toISOString();
+    }
 
     setLoading(true);
     try {
@@ -41,7 +70,7 @@ export function useDashboardData(preset: RangePreset) {
     } finally {
       setLoading(false);
     }
-  }, [preset]);
+  }, [range]);
 
   useEffect(() => {
     let alive = true;
