@@ -7,6 +7,10 @@ import { PrismaClient } from "@prisma/client";
 import { Resend } from "resend";
 import { getWelcomeEmailHtml } from "./email-templates/welcome-email";
 
+const EMAIL_SENDER_NAME = process.env.EMAIL_SENDER_NAME || "Spendly";
+const EMAIL_SENDER_ADDRESS =
+  process.env.EMAIL_SENDER_ADDRESS || "account@notify.spendly.fun";
+
 const prisma = new PrismaClient();
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -19,7 +23,7 @@ export const auth = betterAuth({
     requireEmailVerification: true,
     sendResetPassword: async ({ user, url }) => {
       await resend.emails.send({
-        from: "Spendly <account@notify.spendly.fun>",
+        from: `${EMAIL_SENDER_NAME} <${EMAIL_SENDER_ADDRESS}>`,
         to: user.email,
         subject: "Reset your password",
         html: getResetPasswordEmailHtml(url),
@@ -30,7 +34,7 @@ export const auth = betterAuth({
     sendOnSignUp: true,
     sendVerificationEmail: async ({ user, url }) => {
       await resend.emails.send({
-        from: "Spendly <account@notify.spendly.fun>",
+        from: `${EMAIL_SENDER_NAME} <${EMAIL_SENDER_ADDRESS}>`,
         to: user.email,
         subject: "Verify your email address",
         html: getWelcomeEmailHtml(url),

@@ -100,8 +100,8 @@ export default function DashboardPage() {
                     onClick={() => setRange("year")}
                     className={
                       range === "year"
-                        ? "flex-1 bg-logoGreen text-black font-semibold shadow-sm hover:bg-logoGreen/90 hover:text-black px-3 py-2 text-xs"
-                        : "flex-1 text-slate-400 hover:text-white hover:bg-white/5 px-3 py-2 text-xs"
+                        ? "flex-1 bg-logoGreen text-black font-semibold shadow-sm hover:brightness-110 px-3 py-2 text-xs"
+                        : "flex-1 text-slate-400 hover:text-white hover:bg-white/10 px-3 py-2 text-xs transition-colors"
                     }
                   >
                     Year
@@ -112,8 +112,8 @@ export default function DashboardPage() {
                     onClick={() => setRange("month")}
                     className={
                       range === "month"
-                        ? "flex-1 bg-logoGreen text-black font-semibold shadow-sm hover:bg-logoGreen/90 hover:text-black px-3 py-2 text-xs"
-                        : "flex-1 text-slate-400 hover:text-white hover:bg-white/5 px-3 py-2 text-xs"
+                        ? "flex-1 bg-logoGreen text-black font-semibold shadow-sm hover:brightness-110 px-3 py-2 text-xs"
+                        : "flex-1 text-slate-400 hover:text-white hover:bg-white/10 px-3 py-2 text-xs transition-colors"
                     }
                   >
                     Month
@@ -124,8 +124,8 @@ export default function DashboardPage() {
                     onClick={() => setRange("30d")}
                     className={
                       range === "30d"
-                        ? "flex-1 bg-logoGreen text-black font-semibold shadow-sm hover:bg-logoGreen/90 hover:text-black px-3 py-2 text-xs"
-                        : "flex-1 text-slate-400 hover:text-white hover:bg-white/5 px-3 py-2 text-xs"
+                        ? "flex-1 bg-logoGreen text-black font-semibold shadow-sm hover:brightness-110 px-3 py-2 text-xs"
+                        : "flex-1 text-slate-400 hover:text-white hover:bg-white/10 px-3 py-2 text-xs transition-colors"
                     }
                   >
                     30 days
@@ -141,8 +141,8 @@ export default function DashboardPage() {
                     }
                     className={
                       isCustom
-                        ? "flex-1 bg-logoGreen text-black font-semibold shadow-sm hover:bg-logoGreen/90 hover:text-black px-3 py-2 text-xs"
-                        : "flex-1 text-slate-400 hover:text-white hover:bg-white/5 px-3 py-2 text-xs"
+                        ? "flex-1 bg-logoGreen text-black font-semibold shadow-sm hover:brightness-110 px-3 py-2 text-xs"
+                        : "flex-1 text-slate-400 hover:text-white hover:bg-white/10 px-3 py-2 text-xs transition-colors"
                     }
                   >
                     <Calendar className="mr-1.5 h-3.5 w-3.5 shrink-0" />

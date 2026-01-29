@@ -55,7 +55,7 @@ export function AddCategoryDialog(props: { onCreated: () => void }) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button className="bg-logoGreen text-black hover:brightness-110">
+        <Button className="bg-logoGreen text-black hover:bg-logoGreen hover:brightness-110 transition-all">
           + Add category
         </Button>
       </DialogTrigger>
