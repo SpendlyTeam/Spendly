@@ -1,24 +1,61 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Wallet, CreditCard } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Wallet, CreditCard, Calendar } from "lucide-react";
 
 import {
   useDashboardData,
-  type RangePreset,
+  type DashboardRange,
+  type CustomDateRange,
 } from "@/features/dashboard/lib/use-dashboard-data";
+import { ExportPdfDialog } from "@/features/dashboard/ui/export-pdf-dialog";
 import { CategoriesPieChart } from "@/features/dashboard/ui/charts/categories-pie-chart";
 import { MonthlyLineChart } from "@/features/dashboard/ui/charts/monthly-line-chart";
 import { TransactionsTable } from "@/features/transactions/ui/transactions-table";
 import { AddTransactionDialog } from "@/features/transactions/ui/add-transaction-dialog";
 import { AddCategoryDialog } from "@/features/categories/ui/add-category-dialog";
 import { formatMoneyCents } from "@lib/formatters";
+import { cn } from "@lib/utils";
+
+function toDateInputValue(d: Date): string {
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${y}-${m}-${day}`;
+}
+
+function parseDateInputValue(value: string): Date | null {
+  const [y, m, d] = value.split("-").map(Number);
+  if (!Number.isFinite(y) || !Number.isFinite(m) || !Number.isFinite(d))
+    return null;
+  const date = new Date(y, m - 1, d);
+  if (Number.isNaN(date.getTime())) return null;
+  return date;
+}
+
+function startOfThisMonth() {
+  const now = new Date();
+  return new Date(now.getFullYear(), now.getMonth(), 1);
+}
 
 export default function DashboardPage() {
-  const [preset, setPreset] = useState<RangePreset>("month");
-  const { transactions, loading, summary, refetch } = useDashboardData(preset);
+  const [range, setRange] = useState<DashboardRange>("year");
+  const pieChartRef = useRef<HTMLDivElement>(null);
+  const lineChartRef = useRef<HTMLDivElement>(null);
+  const isCustom =
+    typeof range === "object" && "from" in range && "to" in range;
+  const customFrom = isCustom ? range.from : startOfThisMonth();
+  const customTo = isCustom ? range.to : new Date();
+
+  const { transactions, loading, summary, refetch } = useDashboardData(range);
+
+  const applyCustomRange = (from: Date, to: Date) => {
+    if (from > to) return;
+    setRange({ from, to } satisfies CustomDateRange);
+  };
 
   const pieLabels = summary.pie.map((x) => x.name);
   const pieValues = summary.pie.map((x) => x.cents / 100);
@@ -48,41 +85,151 @@ export default function DashboardPage() {
               Your financial health at a glance. Track spending, analyze trends,
               and stay on budget.
             </p>
+            <div className="mt-4">
+              <ExportPdfDialog />
+            </div>
           </div>
 
-          <div className="flex flex-wrap items-center gap-3">
-            <div className="flex bg-white/5 border border-white/10 rounded-lg p-1">
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => setPreset("month")}
-                className={
-                  preset === "month"
-                    ? "bg-logoGreen text-black font-semibold shadow-sm hover:bg-logoGreen/90 hover:text-black"
-                    : "text-slate-400 hover:text-white hover:bg-white/5"
-                }
+          <div className="flex min-w-0 flex-1 justify-end">
+            <div className="inline-flex flex-col items-end gap-2">
+              <div className="flex flex-wrap items-center gap-2">
+                <div className="flex w-[320px] shrink-0 bg-white/5 border border-white/10 rounded-lg p-1">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setRange("year")}
+                    className={
+                      range === "year"
+                        ? "flex-1 bg-logoGreen text-black font-semibold shadow-sm hover:bg-logoGreen/90 hover:text-black px-3 py-2 text-xs"
+                        : "flex-1 text-slate-400 hover:text-white hover:bg-white/5 px-3 py-2 text-xs"
+                    }
+                  >
+                    Year
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setRange("month")}
+                    className={
+                      range === "month"
+                        ? "flex-1 bg-logoGreen text-black font-semibold shadow-sm hover:bg-logoGreen/90 hover:text-black px-3 py-2 text-xs"
+                        : "flex-1 text-slate-400 hover:text-white hover:bg-white/5 px-3 py-2 text-xs"
+                    }
+                  >
+                    Month
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setRange("30d")}
+                    className={
+                      range === "30d"
+                        ? "flex-1 bg-logoGreen text-black font-semibold shadow-sm hover:bg-logoGreen/90 hover:text-black px-3 py-2 text-xs"
+                        : "flex-1 text-slate-400 hover:text-white hover:bg-white/5 px-3 py-2 text-xs"
+                    }
+                  >
+                    30 days
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() =>
+                      setRange({
+                        from: startOfThisMonth(),
+                        to: new Date(),
+                      })
+                    }
+                    className={
+                      isCustom
+                        ? "flex-1 bg-logoGreen text-black font-semibold shadow-sm hover:bg-logoGreen/90 hover:text-black px-3 py-2 text-xs"
+                        : "flex-1 text-slate-400 hover:text-white hover:bg-white/5 px-3 py-2 text-xs"
+                    }
+                  >
+                    <Calendar className="mr-1.5 h-3.5 w-3.5 shrink-0" />
+                    <span className="truncate">Custom</span>
+                  </Button>
+                </div>
+                <div className="h-6 w-px shrink-0 bg-white/10 hidden sm:block" />
+                <div className="flex shrink-0 gap-1.5">
+                  <AddCategoryDialog onCreated={refetch} />
+                  <AddTransactionDialog onCreated={refetch} />
+                </div>
+              </div>
+              <div
+                className={cn(
+                  "grid w-full min-w-0 overflow-hidden transition-[grid-template-rows,opacity] duration-300 ease-out",
+                  isCustom
+                    ? "grid-rows-[1fr] opacity-100"
+                    : "grid-rows-[0fr] opacity-0",
+                )}
               >
-                This month
-              </Button>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => setPreset("30d")}
-                className={
-                  preset === "30d"
-                    ? "bg-logoGreen text-black font-semibold shadow-sm hover:bg-logoGreen/90 hover:text-black"
-                    : "text-slate-400 hover:text-white hover:bg-white/5"
-                }
-              >
-                Last 30 days
-              </Button>
-            </div>
-
-            <div className="h-8 w-px bg-white/10 mx-1 hidden sm:block" />
-
-            <div className="flex gap-2">
-              <AddCategoryDialog onCreated={refetch} />
-              <AddTransactionDialog onCreated={refetch} />
+                <div className="flex min-h-0 w-full justify-start">
+                  <div className="flex w-[320px] flex-wrap items-center gap-1.5 rounded-lg border border-white/10 bg-white/5 px-2 py-1.5">
+                    <label className="flex min-w-0 flex-1 basis-0 items-center gap-1.5 text-xs text-slate-400">
+                      From
+                      <Input
+                        type="date"
+                        value={toDateInputValue(customFrom)}
+                        onChange={(e) => {
+                          const d = parseDateInputValue(e.target.value);
+                          if (d) applyCustomRange(d, customTo);
+                        }}
+                        onClick={(e) =>
+                          (e.currentTarget as HTMLInputElement).showPicker?.()
+                        }
+                        onFocus={(e) => {
+                          const el = e.currentTarget as HTMLInputElement;
+                          el.showPicker?.();
+                          setTimeout(
+                            () =>
+                              el.setSelectionRange?.(
+                                el.value.length,
+                                el.value.length,
+                              ),
+                            0,
+                          );
+                        }}
+                        onKeyDown={(e) => {
+                          if (e.key.length === 1 && !e.ctrlKey && !e.metaKey)
+                            e.preventDefault();
+                        }}
+                        className="h-7 min-w-0 flex-1 cursor-pointer select-none border-white/10 bg-black/20 text-slate-200 text-xs [&::-webkit-calendar-picker-indicator]:cursor-pointer [&::-webkit-calendar-picker-indicator]:opacity-70"
+                      />
+                    </label>
+                    <label className="flex min-w-0 flex-1 basis-0 items-center gap-1.5 text-xs text-slate-400">
+                      To
+                      <Input
+                        type="date"
+                        value={toDateInputValue(customTo)}
+                        onChange={(e) => {
+                          const d = parseDateInputValue(e.target.value);
+                          if (d) applyCustomRange(customFrom, d);
+                        }}
+                        onClick={(e) =>
+                          (e.currentTarget as HTMLInputElement).showPicker?.()
+                        }
+                        onFocus={(e) => {
+                          const el = e.currentTarget as HTMLInputElement;
+                          el.showPicker?.();
+                          setTimeout(
+                            () =>
+                              el.setSelectionRange?.(
+                                el.value.length,
+                                el.value.length,
+                              ),
+                            0,
+                          );
+                        }}
+                        onKeyDown={(e) => {
+                          if (e.key.length === 1 && !e.ctrlKey && !e.metaKey)
+                            e.preventDefault();
+                        }}
+                        className="h-7 min-w-0 flex-1 cursor-pointer select-none border-white/10 bg-black/20 text-slate-200 text-xs [&::-webkit-calendar-picker-indicator]:cursor-pointer [&::-webkit-calendar-picker-indicator]:opacity-70"
+                      />
+                    </label>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -185,11 +332,13 @@ export default function DashboardPage() {
               ) : summary.pie.length === 0 ? (
                 <div className="text-sm text-slate-400">No data.</div>
               ) : (
-                <CategoriesPieChart
-                  labels={pieLabels}
-                  values={pieValues}
-                  colors={pieColors}
-                />
+                <div ref={pieChartRef}>
+                  <CategoriesPieChart
+                    labels={pieLabels}
+                    values={pieValues}
+                    colors={pieColors}
+                  />
+                </div>
               )}
             </CardContent>
           </Card>
@@ -204,7 +353,9 @@ export default function DashboardPage() {
               ) : summary.monthly.length === 0 ? (
                 <div className="text-sm text-slate-400">No data.</div>
               ) : (
-                <MonthlyLineChart labels={lineLabels} values={lineValues} />
+                <div ref={lineChartRef}>
+                  <MonthlyLineChart labels={lineLabels} values={lineValues} />
+                </div>
               )}
             </CardContent>
           </Card>
