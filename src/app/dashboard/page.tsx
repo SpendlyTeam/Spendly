@@ -193,7 +193,7 @@ export default function DashboardPage() {
                           if (e.key.length === 1 && !e.ctrlKey && !e.metaKey)
                             e.preventDefault();
                         }}
-                        className="h-7 min-w-0 flex-1 cursor-pointer select-none border-white/10 bg-black/20 text-slate-200 text-xs [&::-webkit-calendar-picker-indicator]:cursor-pointer [&::-webkit-calendar-picker-indicator]:opacity-70"
+                        className="h-7 min-w-0 flex-1 cursor-pointer select-none border-white/10 bg-black/20 text-slate-200 text-xs pr-2 [&::-webkit-calendar-picker-indicator]:invert [&::-webkit-calendar-picker-indicator]:opacity-80 hover:[&::-webkit-calendar-picker-indicator]:opacity-100 [&::-webkit-calendar-picker-indicator]:cursor-pointer"
                       />
                     </label>
                     <label className="flex min-w-0 flex-1 basis-0 items-center gap-1.5 text-xs text-slate-400">
@@ -224,7 +224,7 @@ export default function DashboardPage() {
                           if (e.key.length === 1 && !e.ctrlKey && !e.metaKey)
                             e.preventDefault();
                         }}
-                        className="h-7 min-w-0 flex-1 cursor-pointer select-none border-white/10 bg-black/20 text-slate-200 text-xs [&::-webkit-calendar-picker-indicator]:cursor-pointer [&::-webkit-calendar-picker-indicator]:opacity-70"
+                        className="h-7 min-w-0 flex-1 cursor-pointer select-none border-white/10 bg-black/20 text-slate-200 text-xs pr-2 [&::-webkit-calendar-picker-indicator]:invert [&::-webkit-calendar-picker-indicator]:opacity-80 hover:[&::-webkit-calendar-picker-indicator]:opacity-100 [&::-webkit-calendar-picker-indicator]:cursor-pointer"
                       />
                     </label>
                   </div>

@@ -244,7 +244,7 @@ export function ExportPdfDialog() {
                     if (e.key.length === 1 && !e.ctrlKey && !e.metaKey)
                       e.preventDefault();
                   }}
-                  className="cursor-pointer select-none border-white/10 bg-white/5 text-white [&::-webkit-calendar-picker-indicator]:cursor-pointer [&::-webkit-calendar-picker-indicator]:opacity-70"
+                  className="cursor-pointer select-none border-white/10 bg-white/5 text-white pr-2 [&::-webkit-calendar-picker-indicator]:invert [&::-webkit-calendar-picker-indicator]:opacity-80 hover:[&::-webkit-calendar-picker-indicator]:opacity-100 [&::-webkit-calendar-picker-indicator]:cursor-pointer"
                 />
               </div>
               <div className="space-y-2">
@@ -275,7 +275,7 @@ export function ExportPdfDialog() {
                     if (e.key.length === 1 && !e.ctrlKey && !e.metaKey)
                       e.preventDefault();
                   }}
-                  className="cursor-pointer select-none border-white/10 bg-white/5 text-white [&::-webkit-calendar-picker-indicator]:cursor-pointer [&::-webkit-calendar-picker-indicator]:opacity-70"
+                  className="cursor-pointer select-none border-white/10 bg-white/5 text-white pr-2 [&::-webkit-calendar-picker-indicator]:invert [&::-webkit-calendar-picker-indicator]:opacity-80 hover:[&::-webkit-calendar-picker-indicator]:opacity-100 [&::-webkit-calendar-picker-indicator]:cursor-pointer"
                 />
               </div>
             </div>

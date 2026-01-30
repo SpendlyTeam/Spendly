@@ -97,10 +97,6 @@ export function AddCategoryDialog(props: { onCreated: () => void }) {
           >
             {saving ? "Saving…" : "Create category"}
           </Button>
-
-          <p className="text-xs text-slate-400">
-            Slug is generated automatically from the name.
-          </p>
         </form>
       </DialogContent>
     </Dialog>
