@@ -112,7 +112,10 @@ export function AddTransactionDialog(props: { onCreated: () => void }) {
                 type="date"
                 value={date}
                 onChange={(e) => setDate(e.target.value)}
-                className="border-white/10 bg-white/5 text-white"
+                onClick={(e) =>
+                  (e.currentTarget as HTMLInputElement).showPicker?.()
+                }
+                className="border-white/10 bg-white/5 text-white pr-1 [&::-webkit-calendar-picker-indicator]:invert [&::-webkit-calendar-picker-indicator]:opacity-80 hover:[&::-webkit-calendar-picker-indicator]:opacity-100 [&::-webkit-calendar-picker-indicator]:cursor-pointer [&::-webkit-calendar-picker-indicator]:ml-0"
               />
             </div>
           </div>
@@ -152,10 +155,6 @@ export function AddTransactionDialog(props: { onCreated: () => void }) {
           >
             {saving ? "Saving…" : "Add transaction"}
           </Button>
-
-          <p className="text-xs text-slate-400">
-            MVP note: saved with userId=1 (replace later with auth).
-          </p>
         </form>
       </DialogContent>
     </Dialog>
