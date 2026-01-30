@@ -1,0 +1,67 @@
+name: CI
+
+env:
+  TARGET_ENV: "ci"
+  DATABASE_URL: "postgresql://postgres:postgres@127.0.0.1:54322/postgres"
+  BETTER_AUTH_SECRET: "dummy"
+  BASE_URL: "http://localhost:3000"
+  RESEND_API_KEY: "re_123"
+  DEMO_USER_ID: "6ottCs1FlStkDTyZzt6jHFmDlMk8VRel"
+
+on:
+  push:
+    branches:
+      - dev
+      - main
+  pull_request:
+    branches:
+      - dev
+      - main
+
+permissions:
+  actions: read
+  contents: read
+
+jobs:
+  main:
+    env:
+      NODE_OPTIONS: "--max-old-space-size=4096"
+
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: tree:0
+          fetch-depth: 0
+
+      # This enables task distribution via Nx Cloud
+      # Run this command as early as possible, before dependencies are installed
+      # Learn more at https://nx.dev/ci/reference/nx-cloud-cli#npx-nxcloud-startcirun
+      # Uncomment this line to enable task distribution
+      # - run: npx nx start-ci-run --distribute-on="3 linux-medium-js" --stop-agents-after="build"
+
+      # Cache node_modules
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: "npm"
+
+      # Cache .next/cache
+      - uses: actions/cache@v4
+        with:
+          path: |
+            ~/.npm
+            ${{ github.workspace }}/.next/cache
+          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx') }}
+          restore-keys: |
+            ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
+      - run: npm ci --verbose
+
+      # Generate Prisma client and types
+      - run: npx prisma@6 generate
+
+      # Lint app
+      - run: npm run lint
+
+      # Build app
+      - run: npm run build
