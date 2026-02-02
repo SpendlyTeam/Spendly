@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/shared/api/prisma";
 import { getUserIdOrThrow } from "@/shared/api/get-user-id";
 
+export const runtime = "nodejs";
+
 function slugify(input: string) {
   return input
     .toLowerCase()
