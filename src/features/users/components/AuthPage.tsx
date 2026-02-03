@@ -32,7 +32,7 @@ export function AuthPage({ initialMode = "login" }: AuthPageProps) {
           className={
             isRegister
               ? "z-[5] opacity-100 translate-x-[100%]"
-              : "opacity-0 z-[1]"
+              : "z-[1] opacity-0 translate-x-[100%]"
           }
         >
           <AuthFormHeader title="Register" />
@@ -40,7 +40,7 @@ export function AuthPage({ initialMode = "login" }: AuthPageProps) {
         </FormContainer>
 
         <FormContainer
-          className={`z-[2] ${isRegister ? "translate-x-[100%]" : ""}`}
+          className={!isRegister ? "z-[5] opacity-100" : "z-[1] opacity-0"}
         >
           <AuthFormHeader title="Login" />
           <LoginForm />
