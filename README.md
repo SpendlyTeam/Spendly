@@ -2,12 +2,15 @@
 
 Spendly is a modern financial dashboard application designed to help you track spending, analyze trends, and stay on budget. It features a responsive design, real-time data visualization, and PDF export capabilities.
 
+Live at [https://spendly.fun](https://spendly.fun)
+NOTE: This is a demo version; all data is cleared every Sunday at 3:00 AM.
+
 ## Tech Stack
 
 - **Framework**: Next.js 16 (App Router)
 - **Language**: TypeScript
 - **Styling**: Tailwind CSS (v4)
-- **Database**: PostgreSQL (via Prisma ORM)
+- **Database**: PostgreSQL (via Prisma ORM), Supabase
 - **Authentication**: Better Auth
 - **Email**: Resend
 - **UI Components**: Radix UI, Lucide React
