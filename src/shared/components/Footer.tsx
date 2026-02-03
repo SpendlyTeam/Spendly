@@ -3,12 +3,12 @@ import { Github, Linkedin, Twitter } from "lucide-react";
 
 const socials = [
   {
-    href: "https://www.youtube.com/watch?v=KJg3jyxTEkU",
+    href: "https://twitter.com",
     label: "Twitter",
     icon: Twitter,
   },
   {
-    href: "https://www.youtube.com/watch?v=KSPxHniCtmw",
+    href: "https://www.linkedin.com",
     label: "LinkedIn",
     icon: Linkedin,
   },
