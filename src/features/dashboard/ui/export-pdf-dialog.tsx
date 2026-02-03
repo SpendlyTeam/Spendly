@@ -51,10 +51,10 @@ function getRangeFromToISO(range: DashboardRange): {
     from.setHours(0, 0, 0, 0);
     return { fromISO: from.toISOString(), toISO: new Date().toISOString() };
   }
-  if (range === "30d") {
+  if (range === "7d") {
     const to = new Date();
     const from = new Date();
-    from.setDate(from.getDate() - 30);
+    from.setDate(from.getDate() - 7);
     return { fromISO: from.toISOString(), toISO: to.toISOString() };
   }
   if (range === "year") {
@@ -78,7 +78,7 @@ function formatPeriodLabel(range: DashboardRange): string {
       year: "numeric",
     }).format(now);
   }
-  if (range === "30d") return "Last 30 days";
+  if (range === "7d") return "Last 7 days";
   if (range === "year") return "Last 12 months";
   const from = range.from;
   const to = range.to;
@@ -164,7 +164,7 @@ export function ExportPdfDialog() {
                 onClick={() => setRange("year")}
                 className={
                   range === "year"
-                    ? "bg-logoGreen text-black hover:bg-logoGreen/90"
+                    ? "bg-logoGreen text-black hover:brightness-110"
                     : "text-slate-400 hover:text-white hover:bg-white/10"
                 }
               >
@@ -177,7 +177,7 @@ export function ExportPdfDialog() {
                 onClick={() => setRange("month")}
                 className={
                   range === "month"
-                    ? "bg-logoGreen text-black hover:bg-logoGreen/90"
+                    ? "bg-logoGreen text-black hover:brightness-110"
                     : "text-slate-400 hover:text-white hover:bg-white/10"
                 }
               >
@@ -187,14 +187,14 @@ export function ExportPdfDialog() {
                 type="button"
                 variant="ghost"
                 size="sm"
-                onClick={() => setRange("30d")}
+                onClick={() => setRange("7d")}
                 className={
-                  range === "30d"
-                    ? "bg-logoGreen text-black hover:bg-logoGreen/90"
+                  range === "7d"
+                    ? "bg-logoGreen text-black hover:brightness-110"
                     : "text-slate-400 hover:text-white hover:bg-white/10"
                 }
               >
-                30 days
+                7 days
               </Button>
               <Button
                 type="button"
@@ -205,7 +205,7 @@ export function ExportPdfDialog() {
                 }
                 className={
                   isCustom
-                    ? "bg-logoGreen text-black hover:bg-logoGreen/90"
+                    ? "bg-logoGreen text-black hover:brightness-110"
                     : "text-slate-400 hover:text-white hover:bg-white/10"
                 }
               >

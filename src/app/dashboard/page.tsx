@@ -121,14 +121,14 @@ export default function DashboardPage() {
                   <Button
                     variant="ghost"
                     size="sm"
-                    onClick={() => setRange("30d")}
+                    onClick={() => setRange("7d")}
                     className={
-                      range === "30d"
+                      range === "7d"
                         ? "flex-1 bg-logoGreen text-black font-semibold shadow-sm hover:brightness-110 px-3 py-2 text-xs"
                         : "flex-1 text-slate-400 hover:text-white hover:bg-white/10 px-3 py-2 text-xs transition-colors"
                     }
                   >
-                    30 days
+                    7 days
                   </Button>
                   <Button
                     variant="ghost"
